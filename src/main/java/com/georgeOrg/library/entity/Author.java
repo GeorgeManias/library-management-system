@@ -28,7 +28,6 @@ public class Author {
     private LocalDate dob;
 
     @NotBlank(message = "Biography is mandatory.")
-
     private String biography;
 
     //id will not be available from the constructor, because it is generated automatically
