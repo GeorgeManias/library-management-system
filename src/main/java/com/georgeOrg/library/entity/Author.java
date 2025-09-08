@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.time.LocalDate;
-
+// Entity is not a layer is the Table itself
 @Entity // Is the annotation for telling Spring Boot, that this class reflect in the database
 @Table(name = "Authors")//To tell the name of the table
 public class Author {

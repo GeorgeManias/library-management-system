@@ -3,6 +3,7 @@ package com.georgeOrg.library.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 
@@ -10,16 +11,12 @@ import java.time.LocalDate;
 @Table(name = "Books")
 public class Book {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @PastOrPresent(message = "The date can not be in the future.")
     @NotBlank(message = "Published Date is mandatory.")
     private LocalDate publishedDate;
-
-
-    private int authorId;
-
-    private int memberId;
 
     @NotBlank(message = "ISBN is mandatory.")
     private String isbn;
@@ -28,27 +25,19 @@ public class Book {
     private String title;
 
     @ManyToOne
-    @JoinColumn(name = "member_Id", nullable = false)
+    @JoinColumn(name = "member_Id", nullable = false) // Underscore is the best practice for naming database, because is the best
     private Member member;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    public Book(LocalDate publishedDate, int authorId, int memberId, String isbn, String title) {
+    public Book(LocalDate publishedDate, String isbn, String title, Member member, Author author) {
         this.publishedDate = publishedDate;
-        this.authorId = authorId;
-        this.memberId = memberId;
         this.isbn = isbn;
         this.title = title;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        this.member = member;
+        this.author = author;
     }
 
     public LocalDate getPublishedDate() {
@@ -57,22 +46,6 @@ public class Book {
 
     public void setPublishedDate(LocalDate publishedDate) {
         this.publishedDate = publishedDate;
-    }
-
-    public int getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
-    }
-
-    public int getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(int memberId) {
-        this.memberId = memberId;
     }
 
     public String getIsbn() {
@@ -90,4 +63,26 @@ public class Book {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public long getId() {
+        return id;
+    }
+ // I removed the set, because is auto incremented
+
 }
